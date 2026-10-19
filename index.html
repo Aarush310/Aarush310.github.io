@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aarush Prasad</title>
+<meta name="description" content="Aarush Prasad — CS student at TUS Athlone building AI and cloud software. Projects, experience and contact.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #000;
+    --fg: #fff;
+    --muted: #8a8a8a;
+    --dim: #5c5c5c;
+    --line: #1f1f1f;
+    --card: #0a0a0a;
+    --accent: #4ade80;
+    --warn: #f97316;
+    --serif: "EB Garamond", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+    --max: 1200px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--serif);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+  .mono { font-family: var(--mono); font-size: 12px; letter-spacing: .02em; }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(0,0,0,.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; }
+  .logo-mark {
+    width: 24px; height: 24px; border: 1.5px solid var(--fg); border-radius: 50%;
+    display: grid; place-items: center; font-family: var(--mono); font-size: 9px;
+  }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a.mono { color: #d4d4d4; transition: color .2s; }
+  .nav-links a.mono:hover { color: var(--fg); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: var(--mono); font-size: 13px; padding: 11px 18px;
+    border-radius: 6px; border: 1px solid var(--fg); transition: all .2s;
+    white-space: nowrap;
+  }
+  .btn-solid { background: var(--fg); color: var(--bg); }
+  .btn-solid:hover { background: #d9d9d9; border-color: #d9d9d9; }
+  .btn-ghost { color: var(--fg); background: transparent; border-color: #555; }
+  .btn-ghost:hover { border-color: var(--fg); }
+
+  /* Hero */
+  .hero { padding-top: 100px; padding-bottom: 120px; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 340px; gap: 64px; align-items: end; }
+  .hero h1 {
+    font-weight: 400; font-size: clamp(56px, 8.5vw, 104px);
+    line-height: .95; letter-spacing: -.02em;
+  }
+  .hero p { max-width: 560px; font-size: 20px; line-height: 1.55; color: #e5e5e5; margin-top: 40px; }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
+  .status { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); margin-bottom: 28px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 50% { opacity: .35; } }
+
+  .portrait {
+    border: 1px solid #262626; border-radius: 12px; background: var(--card); overflow: hidden;
+  }
+  .portrait .bar { justify-content: space-between; }
+  .portrait img {
+    display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover;
+    filter: grayscale(1) contrast(1.05); transition: filter .5s;
+  }
+  .portrait:hover img { filter: none; }
+  .portrait .cap { display: flex; justify-content: space-between; padding: 10px 14px; color: var(--muted); border-top: 1px solid #1c1c1c; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); margin-top: 80px; }
+  .stat { padding: 24px 0 0; }
+  .stat b { display: block; font-weight: 400; font-size: 40px; line-height: 1; }
+  .stat span { color: var(--muted); }
+
+  /* Section */
+  section { border-top: 1px solid var(--line); padding: 110px 0; }
+  .sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 64px; flex-wrap: wrap; }
+  h2 { font-weight: 400; font-size: clamp(40px, 5.5vw, 64px); line-height: 1.02; letter-spacing: -.01em; }
+  .sec-head p { max-width: 580px; font-size: 19px; color: #d4d4d4; margin-top: 20px; }
+  .sec-note { color: var(--dim); }
+
+  /* Projects */
+  .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px 28px; }
+  .project .label { display: flex; justify-content: space-between; color: var(--muted); margin-bottom: 10px; }
+  .window {
+    border: 1px solid #262626; border-radius: 10px; background: var(--card);
+    overflow: hidden; aspect-ratio: 5/4; display: flex; flex-direction: column;
+    transition: border-color .25s, transform .25s;
+  }
+  .project:hover .window { border-color: #555; transform: translateY(-3px); }
+  .bar {
+    display: flex; align-items: center; gap: 6px; padding: 9px 12px;
+    border-bottom: 1px solid #1c1c1c; color: var(--dim);
+  }
+  .bar i { width: 7px; height: 7px; border-radius: 50%; background: #2a2a2a; }
+  .bar span { margin-left: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .win-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 9px; overflow: hidden; }
+  .win-body h4 { font-weight: 400; font-size: 22px; line-height: 1.1; font-family: var(--serif); }
+  .field { border: 1px solid #2a2a2a; border-radius: 5px; padding: 7px 10px; color: #cfcfcf; }
+  .field.err { border-color: var(--warn); color: #cfcfcf; }
+  .row { display: flex; justify-content: space-between; gap: 8px; color: #cfcfcf; }
+  .tag { display: inline-block; border: 1px solid #2a2a2a; border-radius: 4px; padding: 3px 8px; color: #bdbdbd; margin: 0 4px 4px 0; }
+  .ok { color: var(--accent); }
+  .warn { color: var(--warn); }
+  .mini-btn { margin-top: auto; text-align: center; background: var(--fg); color: var(--bg); border-radius: 5px; padding: 7px; }
+  .meter { height: 6px; border-radius: 3px; background: #1f1f1f; overflow: hidden; }
+  .meter i { display: block; height: 100%; background: var(--fg); }
+  .bars { display: flex; align-items: flex-end; gap: 5px; height: 56px; margin-top: auto; }
+  .bars b { flex: 1; background: #262626; border-radius: 2px 2px 0 0; }
+  .bars b.hi { background: var(--fg); }
+  .wave { display: flex; align-items: center; gap: 3px; height: 48px; }
+  .wave b { width: 4px; background: var(--fg); border-radius: 2px; animation: wv 1.1s ease-in-out infinite; }
+  @keyframes wv { 50% { transform: scaleY(.3); } }
+  .code { line-height: 1.75; color: #9a9a9a; }
+  .code .k { color: var(--fg); }
+  .project h3 { font-weight: 400; font-size: 30px; line-height: 1.1; margin: 22px 0 10px; }
+  .project p { font-size: 17px; color: #bdbdbd; }
+  .project .meta { color: var(--dim); margin-top: 16px; }
+  .project .links { display: flex; gap: 16px; margin-top: 14px; }
+  .project .links a { color: #d4d4d4; border-bottom: 1px solid #444; padding-bottom: 1px; transition: border-color .2s; }
+  .project .links a:hover { border-color: var(--fg); }
+  .badge { color: var(--accent); }
+
+  /* Accordion */
+  .steps { display: flex; flex-direction: column; gap: 12px; }
+  .step { display: grid; grid-template-columns: 64px 1fr; align-items: start; }
+  .step-num { color: var(--dim); padding-top: 22px; }
+  details {
+    border: 1px solid #262626; border-radius: 8px; background: var(--card);
+    transition: border-color .2s;
+  }
+  details:hover, details[open] { border-color: #444; }
+  summary {
+    list-style: none; cursor: pointer; display: flex; align-items: center; gap: 16px;
+    padding: 18px 24px; font-size: 24px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary .when { color: var(--dim); margin-left: auto; }
+  summary .plus { font-family: var(--mono); font-size: 18px; color: var(--muted); transition: transform .25s; width: 16px; text-align: center; }
+  details[open] summary .plus { transform: rotate(45deg); }
+  .ico { width: 18px; height: 18px; color: var(--accent); flex-shrink: 0; }
+  .step-body { padding: 0 24px 22px 58px; color: #c4c4c4; font-size: 18px; max-width: 800px; }
+  .step-body ul { margin: 10px 0 0 18px; }
+  .step-body li { margin-bottom: 6px; }
+  .step-body .tag { margin-top: 14px; }
+
+  /* Skills */
+  .skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .skill-card { border: 1px solid #262626; border-radius: 10px; padding: 26px; background: var(--card); }
+  .skill-card .mono { color: var(--muted); }
+  .skill-card h3 { font-weight: 400; font-size: 30px; margin: 10px 0 16px; }
+  .skill-card ul { list-style: none; }
+  .skill-card li { display: flex; justify-content: space-between; gap: 8px; padding: 9px 0; border-top: 1px solid #1c1c1c; font-size: 18px; }
+  .skill-card li span { color: var(--dim); text-align: right; }
+  .skill-card.featured { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .skill-card.featured .mono, .skill-card.featured li span { color: #555; }
+  .skill-card.featured li { border-color: #ddd; }
+
+  /* Contact */
+  .contact { text-align: center; padding: 140px 0; }
+  .contact h2 { font-size: clamp(48px, 8vw, 96px); }
+  .contact p { color: #c4c4c4; font-size: 20px; margin: 24px auto 0; max-width: 540px; }
+  .contact .hero-ctas { justify-content: center; }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--dim); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer a:hover { color: var(--fg); }
+  footer .links { display: flex; gap: 20px; }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .dot, .wave b { animation: none; }
+  }
+
+  @media (max-width: 1000px) {
+    .hero-grid { grid-template-columns: 1fr 260px; gap: 40px; }
+    .projects { grid-template-columns: repeat(2, 1fr); }
+    .skills { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 700px) {
+    .wrap { padding: 0 16px; }
+    .nav-links a.mono { display: none; }
+    .hero { padding-top: 56px; padding-bottom: 80px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .portrait { max-width: 300px; }
+    .hero p { font-size: 18px; }
+    .stats { grid-template-columns: repeat(2, 1fr); row-gap: 20px; margin-top: 56px; }
+    section { padding: 80px 0; }
+    .projects, .skills { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 1fr; }
+    .step-num { padding: 0 0 6px; }
+    summary { font-size: 20px; padding: 16px 18px; }
+    summary .when { display: none; }
+    .step-body { padding: 0 18px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#" class="logo"><span class="logo-mark">AP</span>Aarush Prasad</a>
+    <div class="nav-links">
+      <a href="#work" class="mono">Work</a>
+      <a href="#experience" class="mono">Experience</a>
+      <a href="#stack" class="mono">Stack</a>
+      <a href="#contact" class="btn btn-solid">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <header class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="status mono reveal"><span class="dot"></span>TUS Global Student Ambassador · Open to internships</div>
+        <h1 class="reveal">Building AI<br>that shows<br>its sources</h1>
+        <p class="reveal">I'm Aarush, a 3rd-year Software Design with AI for Cloud Computing student at TUS Athlone, a Dean's Honours Award recipient and a TUS Global Student Ambassador. I build agentic RAG systems, real-time voice pipelines and hackathon apps that ship in a day, with citations, tests and CI.</p>
+        <div class="hero-ctas reveal">
+          <a href="#work" class="btn btn-solid">See my work</a>
+          <a href="https://github.com/Aarush310" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+          <a href="https://www.linkedin.com/in/aarush-prasad/" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn</a>
+        </div>
+      </div>
+      <figure class="portrait reveal">
+        <div class="bar mono"><span style="margin:0">aarush.jpg</span><span class="ok">● online</span></div>
+        <!-- Put your photo next to this file as photo.jpg. Until then your GitHub avatar is shown. -->
+        <img src="photo.jpg" alt="Portrait of Aarush Prasad"
+             onerror="this.onerror=null;this.src='https://avatars.githubusercontent.com/u/87687998?v=4'">
+        <figcaption class="cap mono"><span>Athlone, Ireland</span><span>AI &amp; Cloud</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat"><b>3rd</b><span class="mono">Year, BSc (Hons)</span></div>
+      <div class="stat"><b>2</b><span class="mono">Hackathons, Oct 2026</span></div>
+      <div class="stat"><b>26★</b><span class="mono">On Cortex</span></div>
+      <div class="stat"><b>24/25</b><span class="mono">Dean's Honours Award</span></div>
+    </div>
+  </header>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <h2>Selected work.<br>Shipped, tested, cited.</h2>
+          <p>Recent projects, from agentic AI on the Claude API to two apps built in a single day at Dublin AI Week hackathons.</p>
+        </div>
+        <span class="mono sec-note">Hover a card · links open on GitHub</span>
+      </div>
+
+      <div class="projects">
+        <article class="project reveal">
+          <div class="label mono"><span>01 · Agentic RAG</span><span class="badge">★ 26</span></div>
+          <div class="window">
+            <div class="bar mono"><i></i><i></i><i></i><span>cortex · knowledge assistant</span></div>
+            <div class="win-body mono">
+              <div class="field">compare what A and B say about microservices</div>
+              <div class="code">
+                <div><span class="k">→</span> search_knowledge_base("microservices", file=A)</div>
+                <div><span class="k">→</span> search_knowledge_base("microservices", file=B)</div>
+                <div class="ok">✓ 6 passages · 2 documents</div>
+              </div>
+              <div class="row"><span>Citations</span><span>[S1] [S3] [S5]</span></div>
+              <div class="row"><span>Verified</span><span class="ok">3 / 3</span></div>
+            </div>
+          </div>
+          <h3>Cortex</h3>
+          <p>An agentic knowledge assistant on the Claude API. Claude decides what to search, rewrites follow-ups and breaks down questions, and every citation is checked against what it actually retrieved.</p>
+          <div class="meta mono">Python · Claude API · ChromaDB · Docker · OpenShift</div>
+          <div class="links mono"><a href="https://github.com/Aarush310/cortex-knowledge-assistant" target="_blank" rel="noopener">Code ↗</a></div>
+        </article>
+
+        <article class="project reveal">
+          <div class="label mono"><span>02 · Hackathon</span><span>Build for Ireland</span></div>
+          <div class="window">
+            <div class="bar mono"><i></i><i></i><i></i><span>rentcheck · listing check</span></div>
+            <div class="win-body mono">
+              <h4>2-bed, Rathmines</h4>
+              <div class="row"><span>Asking</span><span>€1,450 / mo</span></div>
+              <div class="row"><span>RTB average</span><span>€2,310 / mo</span></div>
+              <div class="field err"><span class="warn">⚑</span> "pay deposit before viewing"</div>
+              <div class="field err"><span class="warn">⚑</span> "owner abroad, keys by post"</div>
+              <div class="mini-btn">Ask the Copilot</div>
+            </div>
+          </div>
+          <h3>RentCheck</h3>
+          <p>Safer renting in Ireland: official RTB rent data, scam warning signs quoted straight from the ad, a rent map, and an AI Copilot that shows its sources. Built in one day at Dogpatch Labs.</p>
+          <div class="meta mono">OpenAI Agents SDK · MCP · Python · JS</div>
+          <div class="links mono"><a href="https://rentcheck-psi.vercel.app" target="_blank" rel="noopener">Live ↗</a><a href="https://github.com/Aarush310/Rentcheck" target="_blank" rel="noopener">Code ↗</a></div>
+        </article>
+
+        <article class="project reveal">
+          <div class="label mono"><span>03 · Hackathon</span><span>Notion × Dublin AI Week</span></div>
+          <div class="window">
+            <div class="bar mono"><i></i><i></i><i></i><span>fairshare · team balance</span></div>
+            <div class="win-body mono">
+              <h4>Group project</h4>
+              <div class="row"><span>Maya</span><span>9 pts</span></div><div class="meter"><i style="width:60%"></i></div>
+              <div class="row"><span>Liam</span><span>8 pts</span></div><div class="meter"><i style="width:53%"></i></div>
+              <div class="row"><span>You</span><span class="warn">14 pts</span></div><div class="meter"><i style="width:93%;background:var(--warn)"></i></div>
+              <div class="mini-btn">I'm overloaded</div>
+            </div>
+          </div>
+          <h3>Fairshare</h3>
+          <p>An AI group-project planner for students. It turns a brief into tasks, splits them fairly by hours and skills, rebalances by team vote, and syncs with Notion.</p>
+          <div class="meta mono">React 19 · TypeScript · Tailwind · PWA</div>
+          <div class="links mono"><a href="https://github.com/Aarush310/FairShare" target="_blank" rel="noopener">Code ↗</a></div>
+        </article>
+
+        <article class="project reveal">
+          <div class="label mono"><span>04 · Production RAG</span><span>CI eval gate</span></div>
+          <div class="window">
+            <div class="bar mono"><i></i><i></i><i></i><span>docuquery · /metrics</span></div>
+            <div class="win-body mono">
+              <div class="row"><span>BM25 + dense</span><span>0.3 / 0.7</span></div>
+              <div class="row"><span>Re-ranked</span><span>top 3</span></div>
+              <div class="row"><span>Citation coverage</span><span class="ok">96%</span></div>
+              <div class="row"><span>p95 latency</span><span>1.4 s</span></div>
+              <div class="bars"><b style="height:45%"></b><b style="height:60%"></b><b style="height:40%"></b><b style="height:75%"></b><b style="height:55%"></b><b class="hi" style="height:88%"></b><b style="height:50%"></b><b style="height:65%"></b></div>
+            </div>
+          </div>
+          <h3>DocuQuery</h3>
+          <p>Question answering over your documents with hybrid retrieval, cross-encoder re-ranking, enforced citations, Prometheus metrics, and an LLM-as-judge check in CI that fails a PR if answer quality drops.</p>
+          <div class="meta mono">Python · FastAPI · Prometheus · vLLM · OpenShift</div>
+          <div class="links mono"><a href="https://github.com/Aarush310/docuquery" target="_blank" rel="noopener">Code ↗</a></div>
+        </article>
+
+        <article class="project reveal">
+          <div class="label mono"><span>05 · Real-time</span><span>~600 ms to first audio</span></div>
+          <div class="window">
+            <div class="bar mono"><i></i><i></i><i></i><span>voice · ws://duplex</span></div>
+            <div class="win-body mono">
+              <div class="wave"><b style="height:30%"></b><b style="height:70%;animation-delay:.1s"></b><b style="height:100%;animation-delay:.2s"></b><b style="height:55%;animation-delay:.3s"></b><b style="height:85%;animation-delay:.4s"></b><b style="height:40%;animation-delay:.5s"></b><b style="height:75%;animation-delay:.6s"></b><b style="height:35%;animation-delay:.7s"></b><b style="height:90%;animation-delay:.8s"></b><b style="height:50%;animation-delay:.9s"></b></div>
+              <div class="row"><span>STT</span><span>Whisper · 180 ms</span></div>
+              <div class="row"><span>LLM</span><span>stream · 240 ms</span></div>
+              <div class="row"><span>TTS</span><span>Cartesia · 170 ms</span></div>
+              <div class="row"><span>Tier</span><span class="ok">1 · healthy</span></div>
+            </div>
+          </div>
+          <h3>Voice</h3>
+          <p>A real-time voice assistant built as one streaming pipeline (speech-to-text, LLM, text-to-speech) over a single WebSocket, with barge-in and four fallback levels for when a service slows down or fails.</p>
+          <div class="meta mono">FastAPI · WebSockets · Groq · Cartesia</div>
+          <div class="links mono"><a href="https://github.com/Aarush310/voice-assistant" target="_blank" rel="noopener">Code ↗</a></div>
+        </article>
+
+        <article class="project reveal">
+          <div class="label mono"><span>06 · ML + MERN</span><span>NASA POWER data</span></div>
+          <div class="window">
+            <div class="bar mono"><i></i><i></i><i></i><span>forecastiq · event forecast</span></div>
+            <div class="win-body mono">
+              <h4>Outdoor wedding</h4>
+              <div class="row"><span>Galway · Sat 14:00</span><span>18°C</span></div>
+              <div class="row"><span>Rain chance</span><span class="warn">42%</span></div>
+              <div><span class="tag">Random Forest</span><span class="tag">NASA</span><span class="tag">OWM</span></div>
+              <div class="bars"><b style="height:35%"></b><b style="height:50%"></b><b class="hi" style="height:80%"></b><b style="height:65%"></b><b style="height:45%"></b><b style="height:30%"></b></div>
+            </div>
+          </div>
+          <h3>ForecastIQ</h3>
+          <p>Weather forecasts for a specific event, date and time. It combines NASA POWER, OpenWeatherMap and Google Maps with a Random Forest model trained on real data.</p>
+          <div class="meta mono">React · Node · Express · MongoDB · scikit-learn</div>
+          <div class="links mono"><a href="https://github.com/Aarush310/ForecastIQ" target="_blank" rel="noopener">Code ↗</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Where I've been.</h2>
+        <span class="mono sec-note">Click a row to expand</span>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num mono">01</div>
+          <details open>
+            <summary>
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.6 6.5 19.5l1-6.3L3 8.9 9 8z"/></svg>
+              TUS Global Student Ambassador
+              <span class="when mono">Oct 2026 — Now</span><span class="plus">+</span>
+            </summary>
+            <div class="step-body">
+              I represent TU Shannon at open days, school visits and campus tours, giving prospective students an honest picture of student life. I answer questions from applicants and new starters, offer practical guidance on courses and settling in, and make sure every visitor feels welcome, informed and part of the community from day one.
+              <div><span class="tag mono">Public speaking</span><span class="tag mono">Communication</span><span class="tag mono">Event management</span></div>
+            </div>
+          </details>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-num mono">02</div>
+          <details>
+            <summary>
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M7 9l3 3-3 3M13 15h4"/></svg>
+              Dublin AI Week hackathons
+              <span class="when mono">Oct 2026</span><span class="plus">+</span>
+            </summary>
+            <div class="step-body">
+              Two apps built from scratch in one day each:
+              <ul>
+                <li><b>Build for Ireland</b> (OpenAI × Give(a)Go × Dogpatch Labs): RentCheck, a rental-scam and rent-benchmark tool with an MCP server and an AI Copilot.</li>
+                <li><b>Notion × Dublin AI Week Student Hackathon</b> (TU Dublin): Fairshare, an AI group-project planner with Notion two-way sync.</li>
+              </ul>
+              <div><span class="tag mono">OpenAI Agents SDK</span><span class="tag mono">MCP</span><span class="tag mono">React</span><span class="tag mono">Notion API</span></div>
+            </div>
+          </details>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-num mono">03</div>
+          <details>
+            <summary>
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V5l8-2 8 2v14l-8 2-8-2z"/><path d="M12 3v18"/></svg>
+              BSc (Hons) Software Design with AI for Cloud Computing
+              <span class="when mono">2024 — 2028</span><span class="plus">+</span>
+            </summary>
+            <div class="step-body">
+              Technological University of the Shannon (TUS), Athlone. Now in 3rd year and awarded the <b>Dean's Honours Award 2024–25</b>. Coursework covers software engineering, object-oriented design, databases, cloud and AI, and much of it turns into working apps.
+              <div><span class="tag mono">Dean's Honours 24–25</span><span class="tag mono">AI</span><span class="tag mono">Cloud</span><span class="tag mono">Software Design</span></div>
+            </div>
+          </details>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-num mono">04</div>
+          <details>
+            <summary>
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="6"/><path d="M8.5 13.5L7 22l5-3 5 3-1.5-8.5"/></svg>
+              Certifications
+              <span class="when mono">Microsoft · GitHub · Postman</span><span class="plus">+</span>
+            </summary>
+            <div class="step-body">
+              <ul>
+                <li>Career Essentials in Software Development, Microsoft &amp; LinkedIn</li>
+                <li>Career Essentials in GitHub, Professional Certificate</li>
+                <li>Postman API Fundamentals Student Expert</li>
+                <li>Off the keyboard: Trinity Rock &amp; Pop Electric Guitar Grade 5, Rockschool Electric Guitar Grade 2</li>
+              </ul>
+              <div><span class="tag mono">Microsoft</span><span class="tag mono">GitHub</span><span class="tag mono">Postman</span><span class="tag mono">🎸 Guitar</span></div>
+            </div>
+          </details>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-num mono">05</div>
+          <details>
+            <summary>
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+              What's next
+              <span class="when mono">2027</span><span class="plus">+</span>
+            </summary>
+            <div class="step-body">
+              Looking for internships in AI engineering, ML platforms or cloud, especially with a team shipping LLM products to real users.
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>The stack.</h2>
+        <span class="mono sec-note">What I build with</span>
+      </div>
+      <div class="skills">
+        <div class="skill-card reveal">
+          <div class="mono">Languages</div>
+          <h3>Core</h3>
+          <ul>
+            <li>Python<span class="mono">Primary</span></li>
+            <li>TypeScript / JS<span class="mono">Web</span></li>
+            <li>Java<span class="mono">Backend</span></li>
+            <li>SQL · MySQL<span class="mono">Data</span></li>
+            <li>HTML · CSS<span class="mono">UI</span></li>
+          </ul>
+        </div>
+        <div class="skill-card featured reveal">
+          <div class="mono">AI &amp; LLMs</div>
+          <h3>Intelligence</h3>
+          <ul>
+            <li>Claude API<span class="mono">Agents</span></li>
+            <li>OpenAI Agents SDK<span class="mono">Tools</span></li>
+            <li>RAG · ChromaDB<span class="mono">Retrieval</span></li>
+            <li>MCP<span class="mono">Integrations</span></li>
+            <li>scikit-learn<span class="mono">ML</span></li>
+          </ul>
+        </div>
+        <div class="skill-card reveal">
+          <div class="mono">Frameworks</div>
+          <h3>Building</h3>
+          <ul>
+            <li>FastAPI · Flask<span class="mono">APIs</span></li>
+            <li>React · Vite<span class="mono">Frontend</span></li>
+            <li>Node · Express<span class="mono">Server</span></li>
+            <li>Tailwind<span class="mono">Styling</span></li>
+            <li>Streamlit<span class="mono">Data apps</span></li>
+          </ul>
+        </div>
+        <div class="skill-card reveal">
+          <div class="mono">Cloud &amp; Ops</div>
+          <h3>Shipping</h3>
+          <ul>
+            <li>AWS · GCP<span class="mono">Cloud</span></li>
+            <li>Docker · OpenShift<span class="mono">Containers</span></li>
+            <li>GitHub Actions<span class="mono">CI</span></li>
+            <li>Prometheus<span class="mono">Metrics</span></li>
+            <li>Postman<span class="mono">API testing</span></li>
+            <li>Firebase · MongoDB<span class="mono">Data</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap reveal">
+      <h2>Let's build<br>something.</h2>
+      <p>Hiring for an internship, running a hackathon, or want a TUS Global ambassador at your event? My inbox is open.</p>
+      <div class="hero-ctas">
+        <a href="mailto:aarushprasad33@gmail.com" class="btn btn-solid">aarushprasad33@gmail.com</a>
+        <a href="https://www.linkedin.com/in/aarush-prasad/" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/Aarush310" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="mono">
+  <div class="wrap">
+    <span>© <span id="yr"></span> Aarush Prasad · Athlone, Ireland</span>
+    <div class="links">
+      <a href="https://github.com/Aarush310" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/aarush-prasad/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#" onclick="scrollTo({top:0});return false;">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 3) * 80 + 'ms';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>
