@@ -611,6 +611,13 @@
 </footer>
 
 <script>
+  // Vercel Web Analytics only exists on the Vercel deployment, not on GitHub Pages.
+  if (location.hostname.endsWith('vercel.app')) {
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    const s = document.createElement('script');
+    s.defer = true; s.src = '/_vercel/insights/script.js';
+    document.head.appendChild(s);
+  }
   document.getElementById('yr').textContent = new Date().getFullYear();
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
