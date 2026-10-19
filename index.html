@@ -187,12 +187,29 @@
   footer a:hover { color: var(--fg); }
   footer .links { display: flex; gap: 20px; }
 
+  /* Scroll route: a line that draws itself down the page with an agent dot on its tip */
+  html, body { overflow-x: clip; }
+  body { position: relative; }
+  #route { position: absolute; top: 0; left: 0; pointer-events: none; overflow: visible; z-index: 0; }
+  .route-ghost { fill: none; stroke: #161616; stroke-width: 1.5; }
+  .route-track { fill: none; stroke: var(--fg); stroke-width: 1.5; stroke-linecap: round; }
+  .route-node { fill: var(--bg); stroke: #3a3a3a; stroke-width: 1.5; transition: fill .4s, stroke .4s; }
+  .route-node.reached { fill: var(--accent); stroke: var(--accent); }
+  .route-agent { opacity: 0; transition: opacity .4s; }
+  .route-agent.on { opacity: 1; }
+  .route-agent .halo { fill: var(--accent); opacity: .2; transform-box: fill-box; transform-origin: center; animation: halo 2.4s ease-in-out infinite; }
+  .route-agent .shell { fill: var(--bg); stroke: var(--fg); stroke-width: 1.5; }
+  .route-agent .core { fill: var(--accent); }
+  .route-agent .arrow { fill: var(--fg); }
+  @keyframes halo { 50% { transform: scale(1.7); opacity: .04; } }
+  #trail { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
   /* Reveal on scroll */
   .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
   .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
-    .dot, .wave b { animation: none; }
+    .dot, .wave b, .route-agent .halo { animation: none; }
   }
 
   @media (max-width: 1150px) {
@@ -230,6 +247,13 @@
 </style>
 </head>
 <body>
+<svg id="route" aria-hidden="true">
+  <path class="route-ghost"/>
+  <path class="route-track"/>
+  <g class="route-nodes"></g>
+  <g class="route-agent"><circle class="halo" r="12"/><circle class="shell" r="7"/><circle class="core" r="3.5"/><path class="arrow" d="M15 0 L10 -3 L10 3 Z"/></g>
+</svg>
+<canvas id="trail" aria-hidden="true"></canvas>
 
 <nav>
   <div class="wrap">
@@ -634,6 +658,155 @@
     el.style.transitionDelay = (i % 3) * 80 + 'ms';
     io.observe(el);
   });
+
+  // Scroll route, after feena.dev: the line follows the reader down the page,
+  // weaving between sections, and the agent dot leaves a trail of glyphs.
+  (() => {
+    const svg = document.getElementById('route');
+    const ghost = svg.querySelector('.route-ghost');
+    const track = svg.querySelector('.route-track');
+    const nodesG = svg.querySelector('.route-nodes');
+    const agent = svg.querySelector('.route-agent');
+    const canvas = document.getElementById('trail');
+    const ctx = canvas.getContext('2d');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const GLYPHS = '01{}<>/*+=·';
+    let table = [], total = 0, nodes = [], cur = 0, target = 0, last = null, parts = [], raf = 0, mobile = false, prevT = 0;
+
+    const docY = el => el.getBoundingClientRect().top + scrollY;
+
+    function lenAtY(y) {
+      if (!table.length || y <= table[0][1]) return 0;
+      let lo = 0, hi = table.length - 1;
+      if (y >= table[hi][1]) return total;
+      while (hi - lo > 1) { const m = (lo + hi) >> 1; table[m][1] < y ? lo = m : hi = m; }
+      return table[hi][0];
+    }
+
+    function build() {
+      const W = document.documentElement.clientWidth;
+      const H = document.documentElement.scrollHeight;
+      mobile = W < 700;
+      svg.setAttribute('width', W); svg.setAttribute('height', H);
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+      const hero = document.querySelector('.hero');
+      const box = hero.getBoundingClientRect(), cs = getComputedStyle(hero);
+      const contentL = box.left + parseFloat(cs.paddingLeft);
+      const contentR = box.right - parseFloat(cs.paddingRight);
+      const gap = mobile ? contentL / 2 : Math.max(8, Math.min(28, contentL - 10));
+      const L = contentL - gap, R = contentR + gap;
+
+      const startY = docY(document.querySelector('.status .dot')) + 4;
+      let x = L, d = `M ${L} ${startY}`;
+      const points = [[L, startY]];
+
+      // Swing across the page through the gap between sections, then run down to the heading
+      const visit = (section, toX, toY) => {
+        if (toX !== x) {
+          const y0 = docY(section) - 80, y1 = toY - 30, m = (y0 + y1) / 2;
+          d += ` L ${x} ${y0} C ${x} ${m} ${toX} ${m} ${toX} ${y1}`;
+          x = toX;
+        }
+        d += ` L ${x} ${toY}`;
+        points.push([x, toY]);
+      };
+      [['#work', L], ['#experience', mobile ? L : R], ['#stack', L]].forEach(([id, side]) => {
+        const sec = document.querySelector(id), h2 = sec.querySelector('h2');
+        visit(sec, side, docY(h2) + 28);
+      });
+      const contact = document.getElementById('contact');
+      visit(contact, W / 2, docY(contact.querySelector('h2')) - 44);
+
+      ghost.setAttribute('d', d); track.setAttribute('d', d);
+      total = track.getTotalLength();
+      track.style.strokeDasharray = `${total} ${total}`;
+      table = [];
+      for (let l = 0; l <= total; l += 6) table.push([l, track.getPointAtLength(l).y]);
+      table.push([total, track.getPointAtLength(total).y]);
+
+      nodesG.innerHTML = '';
+      nodes = points.map(([px, py]) => {
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('class', 'route-node'); c.setAttribute('r', 4);
+        c.setAttribute('cx', px); c.setAttribute('cy', py);
+        nodesG.appendChild(c);
+        return { el: c, len: lenAtY(py) };
+      });
+
+      const dpr = devicePixelRatio || 1;
+      canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      cur = Math.min(cur, total);
+      onScroll();
+    }
+
+    function onScroll() {
+      const bottom = scrollY + innerHeight >= document.documentElement.scrollHeight - 4;
+      target = bottom ? total : lenAtY(scrollY + innerHeight * 0.62);
+      if (reduce) cur = target;
+      if (!raf) raf = requestAnimationFrame(frame);
+    }
+
+    function emit(px, py, n) {
+      for (let i = 0; i < n; i++) parts.push({
+        x: px + (Math.random() - .5) * 10, y: py + (Math.random() - .5) * 10,
+        vx: (Math.random() - .5) * .8, vy: (Math.random() - .5) * .8,
+        life: 1, decay: .012 + Math.random() * .02,
+        ch: GLYPHS[(Math.random() * GLYPHS.length) | 0], white: Math.random() < .2
+      });
+      if (parts.length > 220) parts.splice(0, parts.length - 220);
+    }
+
+    function frame(now) {
+      raf = 0;
+      // Ease by elapsed time so the dot keeps pace on slow devices too
+      const dt = prevT ? Math.min(100, now - prevT) : 16.7;
+      cur += (target - cur) * (1 - Math.pow(.88, dt / 16.7));
+      if (Math.abs(target - cur) < .5) cur = target;
+
+      track.style.strokeDashoffset = total - cur;
+      const p = track.getPointAtLength(cur), q = track.getPointAtLength(Math.min(total, cur + 2));
+      const angle = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI || 90;
+      agent.setAttribute('transform', `translate(${p.x} ${p.y}) rotate(${angle}) scale(${mobile ? .7 : 1})`);
+      agent.classList.toggle('on', cur > 1);
+      nodes.forEach(n => n.el.classList.toggle('reached', cur >= n.len - 2));
+
+      if (!reduce && last) {
+        const dist = Math.hypot(p.x - last.x, p.y - last.y);
+        if (dist > 1) emit(p.x - scrollX, p.y - scrollY, Math.min(4, Math.ceil(dist / 6)));
+      }
+      last = { x: p.x, y: p.y };
+
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      ctx.font = '10px "IBM Plex Mono", monospace';
+      parts = parts.filter(t => (t.life -= t.decay) > 0);
+      for (const t of parts) {
+        t.x += t.vx; t.y += t.vy;
+        ctx.globalAlpha = t.life * .9;
+        ctx.fillStyle = t.white ? '#ffffff' : '#4ade80';
+        ctx.fillText(t.ch, t.x, t.y);
+      }
+      ctx.globalAlpha = 1;
+
+      if (cur !== target || parts.length) { prevT = now; raf = requestAnimationFrame(frame); } else prevT = 0;
+    }
+
+    // Particles are drawn in viewport space, so shift them when the page scrolls
+    let lastScroll = scrollY;
+    addEventListener('scroll', () => {
+      const dy = scrollY - lastScroll; lastScroll = scrollY;
+      parts.forEach(t => t.y -= dy);
+      onScroll();
+    }, { passive: true });
+    let rt;
+    const rebuild = () => { clearTimeout(rt); rt = setTimeout(build, 120); };
+    addEventListener('resize', rebuild);
+    new ResizeObserver(rebuild).observe(document.querySelector('main'));
+    document.fonts.ready.then(build);
+    build();
+  })();
 </script>
 </body>
 </html>
