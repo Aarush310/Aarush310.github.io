@@ -218,6 +218,14 @@
     summary { font-size: 20px; padding: 16px 18px; }
     summary .when { display: none; }
     .step-body { padding: 0 18px 20px; }
+    .window { aspect-ratio: auto; }
+    .win-body { min-height: 230px; }
+    .project .links a { padding: 8px 0; }
+    .project .links { gap: 24px; margin-top: 6px; }
+  }
+  /* Touch screens can't hover, so show the photo in colour */
+  @media (hover: none) {
+    .portrait img { filter: none; }
   }
 </style>
 </head>
