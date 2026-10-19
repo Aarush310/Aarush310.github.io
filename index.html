@@ -100,11 +100,11 @@
   .sec-note { color: var(--dim); }
 
   /* Projects */
-  .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px 28px; }
+  .projects { display: grid; grid-template-columns: repeat(4, 1fr); gap: 56px 24px; }
   .project .label { display: flex; justify-content: space-between; color: var(--muted); margin-bottom: 10px; }
   .window {
     border: 1px solid #262626; border-radius: 10px; background: var(--card);
-    overflow: hidden; aspect-ratio: 5/4; display: flex; flex-direction: column;
+    overflow: hidden; aspect-ratio: 4/5; display: flex; flex-direction: column;
     transition: border-color .25s, transform .25s;
   }
   .project:hover .window { border-color: #555; transform: translateY(-3px); }
@@ -195,6 +195,9 @@
     .dot, .wave b { animation: none; }
   }
 
+  @media (max-width: 1150px) {
+    .projects { grid-template-columns: repeat(3, 1fr); }
+  }
   @media (max-width: 1000px) {
     .hero-grid { grid-template-columns: 1fr 260px; gap: 40px; }
     .projects { grid-template-columns: repeat(2, 1fr); }
@@ -256,7 +259,7 @@
 
     <div class="stats reveal">
       <div class="stat"><b>3rd</b><span class="mono">Year, BSc (Hons)</span></div>
-      <div class="stat"><b>2</b><span class="mono">Hackathons, Oct 2026</span></div>
+      <div class="stat"><b>4</b><span class="mono">Hackathons, 2026</span></div>
       <div class="stat"><b>26★</b><span class="mono">On Cortex</span></div>
       <div class="stat"><b>24/25</b><span class="mono">Dean's Honours Award</span></div>
     </div>
@@ -267,7 +270,7 @@
       <div class="sec-head reveal">
         <div>
           <h2>Selected work.<br>Shipped, tested, cited.</h2>
-          <p>Recent projects, from agentic AI on the Claude API to two apps built in a single day at Dublin AI Week hackathons.</p>
+          <p>Recent projects, from agentic AI on the Claude API to four apps built in a single day at hackathons across Dublin, on Solana, MongoDB, OpenAI and Notion.</p>
         </div>
         <span class="mono sec-note">Hover a card · links open on GitHub</span>
       </div>
@@ -295,7 +298,46 @@
         </article>
 
         <article class="project reveal">
-          <div class="label mono"><span>02 · Hackathon</span><span>Build for Ireland</span></div>
+          <div class="label mono"><span>02 · Hackathon</span><span>BUILD IRL · Solana</span></div>
+          <div class="window">
+            <div class="bar mono"><i></i><i></i><i></i><span>fieldproof · devnet</span></div>
+            <div class="win-body mono">
+              <h4>Fertiliser switch</h4>
+              <div class="row"><span><span class="ok">✓</span> Verified</span><span>advisor</span></div>
+              <div class="row"><span><span class="ok">✓</span> Minted</span><span>1 / 1 · authority burned</span></div>
+              <div class="row"><span><span class="ok">✓</span> Sold</span><span>atomic tx</span></div>
+              <div class="row"><span><span class="ok">✓</span> Retired</span><span>memo: 2026 claim</span></div>
+              <div class="field err"><span class="warn">✗</span> resell attempt: rejected by Solana</div>
+            </div>
+          </div>
+          <h3>FieldProof</h3>
+          <p>Stops one tonne of CO₂ from being claimed twice. Each verified farm climate action becomes exactly one token on Solana, which is minted, sold atomically, then burned with a public memo, so double-counting fails on-chain.</p>
+          <div class="meta mono">Solana · TypeScript · Next.js · SPL Token</div>
+          <div class="links mono"><a href="https://github.com/HimanshuBaheti/FieldProof" target="_blank" rel="noopener">Code ↗</a></div>
+        </article>
+
+        <article class="project reveal">
+          <div class="label mono"><span>03 · Hackathon</span><span>MongoDB Builder Day</span></div>
+          <div class="window">
+            <div class="bar mono"><i></i><i></i><i></i><span>powertrace · atlas</span></div>
+            <div class="win-body mono code">
+              <div><span class="k">?</span> what loses power if DB-2 trips?</div>
+              <div><span class="k">$graphLookup</span> from MDB-1</div>
+              <div>└─ DB-2 <span class="warn">tripped</span></div>
+              <div>&nbsp;&nbsp;&nbsp;├─ Lighting L3 <span class="warn">off</span></div>
+              <div>&nbsp;&nbsp;&nbsp;├─ Sockets S3 <span class="warn">off</span></div>
+              <div>&nbsp;&nbsp;&nbsp;└─ 38 phones <span class="warn">off</span></div>
+              <div class="ok">✓ change stream · live</div>
+            </div>
+          </div>
+          <h3>PowerTrace</h3>
+          <p>A live graph of a building's electrical system in MongoDB Atlas: ask what loses power if a board trips and get the answer instantly. In the demo, everyone's phone became equipment, and half the room went dark.</p>
+          <div class="meta mono">MongoDB Atlas · $graphLookup · Change streams</div>
+          <div class="links mono"><a href="https://powertrace-embs.onrender.com" target="_blank" rel="noopener">Live ↗</a><a href="https://github.com/Aarush310/PowerTrace" target="_blank" rel="noopener">Code ↗</a></div>
+        </article>
+
+        <article class="project reveal">
+          <div class="label mono"><span>04 · Hackathon</span><span>Build for Ireland</span></div>
           <div class="window">
             <div class="bar mono"><i></i><i></i><i></i><span>rentcheck · listing check</span></div>
             <div class="win-body mono">
@@ -314,7 +356,7 @@
         </article>
 
         <article class="project reveal">
-          <div class="label mono"><span>03 · Hackathon</span><span>Notion × Dublin AI Week</span></div>
+          <div class="label mono"><span>05 · Hackathon</span><span>Notion × Dublin AI Week</span></div>
           <div class="window">
             <div class="bar mono"><i></i><i></i><i></i><span>fairshare · team balance</span></div>
             <div class="win-body mono">
@@ -332,7 +374,7 @@
         </article>
 
         <article class="project reveal">
-          <div class="label mono"><span>04 · Production RAG</span><span>CI eval gate</span></div>
+          <div class="label mono"><span>06 · Production RAG</span><span>CI eval gate</span></div>
           <div class="window">
             <div class="bar mono"><i></i><i></i><i></i><span>docuquery · /metrics</span></div>
             <div class="win-body mono">
@@ -350,7 +392,7 @@
         </article>
 
         <article class="project reveal">
-          <div class="label mono"><span>05 · Real-time</span><span>~600 ms to first audio</span></div>
+          <div class="label mono"><span>07 · Real-time</span><span>~600 ms to first audio</span></div>
           <div class="window">
             <div class="bar mono"><i></i><i></i><i></i><span>voice · ws://duplex</span></div>
             <div class="win-body mono">
@@ -368,7 +410,7 @@
         </article>
 
         <article class="project reveal">
-          <div class="label mono"><span>06 · ML + MERN</span><span>NASA POWER data</span></div>
+          <div class="label mono"><span>08 · ML + MERN</span><span>NASA POWER data</span></div>
           <div class="window">
             <div class="bar mono"><i></i><i></i><i></i><span>forecastiq · event forecast</span></div>
             <div class="win-body mono">
@@ -416,16 +458,19 @@
           <details>
             <summary>
               <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M7 9l3 3-3 3M13 15h4"/></svg>
-              Dublin AI Week hackathons
-              <span class="when mono">Oct 2026</span><span class="plus">+</span>
+              Hackathons &amp; Dublin AI Week
+              <span class="when mono">2026 · 4 builds</span><span class="plus">+</span>
             </summary>
             <div class="step-body">
-              Two apps built from scratch in one day each:
+              Four apps built from scratch in a single day each, in selective rooms at Dogpatch Labs and TU Dublin:
               <ul>
-                <li><b>Build for Ireland</b> (OpenAI × Give(a)Go × Dogpatch Labs): RentCheck, a rental-scam and rent-benchmark tool with an MCP server and an AI Copilot.</li>
-                <li><b>Notion × Dublin AI Week Student Hackathon</b> (TU Dublin): Fairshare, an AI group-project planner with Notion two-way sync.</li>
+                <li><b>BUILD IRL Vol. 1</b> (Superteam Ireland × Claude Builder Club @ TCD × Solana), selected from hundreds of applicants. Built <b>FieldProof</b>: verified climate actions as single-use Solana tokens that can't be double-counted.</li>
+                <li><b>MongoDB × Give(a)Go Student Builder Day</b> (with Hoplite, YC S26), one of 80 picked from 500+ applicants. Built <b>PowerTrace</b>: a live dependency graph of a building's power system, with the whole room as the demo.</li>
+                <li><b>Build for Ireland</b> (OpenAI × Give(a)Go × Dogpatch Labs), up to 150 builders using Irish public data. Built <b>RentCheck</b>: a rental-scam checker grounded in official RTB rent data.</li>
+                <li><b>Notion Loves Dublin Student Hackathon</b> (TU Dublin, 100+ students). Built <b>Fairshare</b>: an AI planner that keeps group projects fair.</li>
+                <li><b>MongoDB User Group: Memory for AI Applications</b>. Built an agent with short- and long-term memory plus Vector Search, and earned the skill badge.</li>
               </ul>
-              <div><span class="tag mono">OpenAI Agents SDK</span><span class="tag mono">MCP</span><span class="tag mono">React</span><span class="tag mono">Notion API</span></div>
+              <div><span class="tag mono">Solana</span><span class="tag mono">MongoDB Atlas</span><span class="tag mono">OpenAI Agents SDK</span><span class="tag mono">Notion API</span><span class="tag mono">Vector Search</span></div>
             </div>
           </details>
         </div>
@@ -451,16 +496,17 @@
             <summary>
               <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="6"/><path d="M8.5 13.5L7 22l5-3 5 3-1.5-8.5"/></svg>
               Certifications
-              <span class="when mono">Microsoft · GitHub · Postman</span><span class="plus">+</span>
+              <span class="when mono">Microsoft · GitHub · Postman · MongoDB</span><span class="plus">+</span>
             </summary>
             <div class="step-body">
               <ul>
                 <li>Career Essentials in Software Development, Microsoft &amp; LinkedIn</li>
                 <li>Career Essentials in GitHub, Professional Certificate</li>
                 <li>Postman API Fundamentals Student Expert</li>
+                <li>MongoDB Skill Badge: Memory for AI Applications</li>
                 <li>Off the keyboard: Trinity Rock &amp; Pop Electric Guitar Grade 5, Rockschool Electric Guitar Grade 2</li>
               </ul>
-              <div><span class="tag mono">Microsoft</span><span class="tag mono">GitHub</span><span class="tag mono">Postman</span><span class="tag mono">🎸 Guitar</span></div>
+              <div><span class="tag mono">Microsoft</span><span class="tag mono">GitHub</span><span class="tag mono">Postman</span><span class="tag mono">MongoDB</span><span class="tag mono">🎸 Guitar</span></div>
             </div>
           </details>
         </div>
@@ -508,6 +554,7 @@
             <li>OpenAI Agents SDK<span class="mono">Tools</span></li>
             <li>RAG · ChromaDB<span class="mono">Retrieval</span></li>
             <li>MCP<span class="mono">Integrations</span></li>
+            <li>Vector Search · memory<span class="mono">Agents</span></li>
             <li>scikit-learn<span class="mono">ML</span></li>
           </ul>
         </div>
@@ -516,10 +563,11 @@
           <h3>Building</h3>
           <ul>
             <li>FastAPI · Flask<span class="mono">APIs</span></li>
-            <li>React · Vite<span class="mono">Frontend</span></li>
+            <li>React · Next.js · Vite<span class="mono">Frontend</span></li>
             <li>Node · Express<span class="mono">Server</span></li>
             <li>Tailwind<span class="mono">Styling</span></li>
             <li>Streamlit<span class="mono">Data apps</span></li>
+            <li>Solana · SPL Token<span class="mono">Web3</span></li>
           </ul>
         </div>
         <div class="skill-card reveal">
@@ -531,7 +579,7 @@
             <li>GitHub Actions<span class="mono">CI</span></li>
             <li>Prometheus<span class="mono">Metrics</span></li>
             <li>Postman<span class="mono">API testing</span></li>
-            <li>Firebase · MongoDB<span class="mono">Data</span></li>
+            <li>MongoDB Atlas · Firebase<span class="mono">Data</span></li>
           </ul>
         </div>
       </div>
