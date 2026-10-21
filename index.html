@@ -104,7 +104,7 @@
   .sec-note { color: var(--dim); }
 
   /* Projects */
-  .projects { display: grid; grid-template-columns: repeat(4, 1fr); gap: 56px 24px; }
+  .projects { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 56px 24px; }
   .project .label { display: flex; justify-content: space-between; color: var(--muted); margin-bottom: 10px; }
   .window {
     border: 1px solid #262626; border-radius: 10px; background: var(--card);
@@ -135,7 +135,7 @@
   .wave { display: flex; align-items: center; gap: 3px; height: 48px; }
   .wave b { width: 4px; background: var(--fg); border-radius: 2px; animation: wv 1.1s ease-in-out infinite; }
   @keyframes wv { 50% { transform: scaleY(.3); } }
-  .code { line-height: 1.75; color: #9a9a9a; }
+  .code { line-height: 1.75; color: #9a9a9a; overflow-wrap: anywhere; }
   .code .k { color: var(--fg); }
   .project h3 { font-weight: 400; font-size: 30px; line-height: 1.1; margin: 22px 0 10px; }
   .project p { font-size: 17px; color: #bdbdbd; }
@@ -217,11 +217,11 @@
   }
 
   @media (max-width: 1150px) {
-    .projects { grid-template-columns: repeat(3, 1fr); }
+    .projects { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
   @media (max-width: 1000px) {
     .hero-grid { grid-template-columns: 1fr 260px; gap: 40px; }
-    .projects { grid-template-columns: repeat(2, 1fr); }
+    .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .skills { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 700px) {
@@ -320,8 +320,8 @@
             <div class="win-body mono">
               <div class="field">compare what A and B say about microservices</div>
               <div class="code">
-                <div><span class="k">→</span> search_knowledge_base("microservices", file=A)</div>
-                <div><span class="k">→</span> search_knowledge_base("microservices", file=B)</div>
+                <div><span class="k">→</span> search_kb("microservices", A)</div>
+                <div><span class="k">→</span> search_kb("microservices", B)</div>
                 <div class="ok">✓ 6 passages · 2 documents</div>
               </div>
               <div class="row"><span>Citations</span><span>[S1] [S3] [S5]</span></div>
@@ -341,7 +341,7 @@
             <div class="win-body mono">
               <h4>Fertiliser switch</h4>
               <div class="row"><span><span class="ok">✓</span> Verified</span><span>advisor</span></div>
-              <div class="row"><span><span class="ok">✓</span> Minted</span><span>1 / 1 · authority burned</span></div>
+              <div class="row"><span><span class="ok">✓</span> Minted</span><span>1 / 1 · locked</span></div>
               <div class="row"><span><span class="ok">✓</span> Sold</span><span>atomic tx</span></div>
               <div class="row"><span><span class="ok">✓</span> Retired</span><span>memo: 2026 claim</span></div>
               <div class="field err"><span class="warn">✗</span> resell attempt: rejected by Solana</div>
@@ -393,7 +393,7 @@
         </article>
 
         <article class="project reveal">
-          <div class="label mono"><span>05 · Hackathon</span><span>Notion × Dublin AI Week</span></div>
+          <div class="label mono"><span>05 · Hackathon</span><span>Notion Hackathon</span></div>
           <div class="window">
             <div class="bar mono"><i></i><i></i><i></i><span>fairshare · team balance</span></div>
             <div class="win-body mono">
@@ -429,7 +429,7 @@
         </article>
 
         <article class="project reveal">
-          <div class="label mono"><span>07 · Real-time</span><span>~600 ms to first audio</span></div>
+          <div class="label mono"><span>07 · Real-time</span><span>~600 ms latency</span></div>
           <div class="window">
             <div class="bar mono"><i></i><i></i><i></i><span>voice · ws://duplex</span></div>
             <div class="win-body mono">
